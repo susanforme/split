@@ -5,7 +5,6 @@ chrome.contextMenus.create({
   title: "分屏",
   id: contextId.SPLIT1,
 });
-let color = "#3aa757";
 chrome.contextMenus.onClicked.addListener((v) => {
   const { pageUrl, menuItemId } = v;
   switch (menuItemId) {
@@ -17,3 +16,14 @@ chrome.contextMenus.onClicked.addListener((v) => {
   console.log(v);
   console.log(pageUrl, menuItemId);
 });
+
+function initUrl() {
+  if (!localStorage.getItem("iframeUrl")) {
+    localStorage.setItem(
+      "iframeUrl",
+      JSON.stringify(["https://vuejs.org/", "https://reactjs.org/"])
+    );
+  }
+}
+
+initUrl();
