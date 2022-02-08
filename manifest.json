@@ -32,12 +32,6 @@
       "description": "打开popup"
     }
   },
-  "cross_origin_embedder_policy": {
-    "value": "require-corp"
-  },
-  "cross_origin_opener_policy": {
-    "value": "same-origin"
-  },
   "file_system_provider_capabilities": {
     "configurable": true,
     "multiple_mounts": true,
@@ -64,8 +58,7 @@
   // 普通页面能够直接访问的插件资源列表，如果不设置是无法直接访问的
   "web_accessible_resources": [
     "./js/inject.js",
-    "./home.html",
-    "./js/home.js"
+    "./home.html"
   ],
   "background": {
     "page": "background.html"
