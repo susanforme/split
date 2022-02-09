@@ -1,0 +1,12 @@
+#app_home {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+#app_home iframe {
+  width: 100%;
+  height: 100%;
+}
+#app_home .child {
+  width: 50%;
+}
