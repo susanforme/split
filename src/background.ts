@@ -1,5 +1,5 @@
-import { getUrl } from "./utils";
-import { CONTEXT_ID, IFRAME_URL } from "./utils/key";
+import { getUrl, setUrl } from "./utils";
+import { CONTEXT_ID } from "./utils/key";
 
 // [
 //   { id: "main", visible: true, title: "main" },
@@ -12,9 +12,13 @@ chrome.contextMenus.create({
 });
 chrome.contextMenus.onClicked.addListener((v) => {
   const { pageUrl, menuItemId } = v;
-  chrome.storage.sync.get(IFRAME_URL, (res) => {
-    console.log(res);
-  });
+  getUrl()
+    .then((res) => {
+      console.log(res);
+    })
+    .catch(() => {
+      setUrl();
+    });
   // switch (menuItemId) {
   //   case CONTEXT_ID.SPLIT:
   //     const urls = JSON.parse(localStorage.getItem("iframeUrl"));
@@ -39,13 +43,3 @@ chrome.contextMenus.onClicked.addListener((v) => {
   console.log(v);
   console.log(pageUrl, menuItemId);
 });
-
-getUrl()
-  .then((v) => {
-    console.log(v);
-  })
-  .catch((r) => {
-    console.log(r);
-  });
-
-console.log("test");

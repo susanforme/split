@@ -7,7 +7,6 @@ const Options = () => {
   const [like, setLike] = useState<boolean>(false);
 
   useEffect(() => {
-
     /*
      * Restores select box and checkbox state using the preferences
      * stored in chrome.storage.
@@ -20,7 +19,7 @@ const Options = () => {
       (items) => {
         setColor(items.favoriteColor);
         setLike(items.likesColor);
-      }
+      },
     );
   }, []);
 
@@ -38,17 +37,15 @@ const Options = () => {
           setStatus("");
         }, 1000);
         return () => clearTimeout(id);
-      }
+      },
     );
   };
 
   return (
     <>
       <div>
-        Favorite color: <select
-          value={color}
-          onChange={(event) => setColor(event.target.value)}
-        >
+        Favorite color:{" "}
+        <select value={color} onChange={(event) => setColor(event.target.value)}>
           <option value="red">red</option>
           <option value="green">green</option>
           <option value="blue">blue</option>
@@ -75,5 +72,5 @@ ReactDOM.render(
   <React.StrictMode>
     <Options />
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById("root"),
 );
