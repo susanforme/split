@@ -37,7 +37,7 @@
     "multiple_mounts": true,
     "source": "network"
   },
-  "homepage_url": "https://www.baidu.com",
+  "homepage_url": "https://github.com/susanforme/split",
   // "key": "publicKey",
   "minimum_chrome_version": "45",
   "offline_enabled": true,
