@@ -18,3 +18,8 @@
 - [ ] 禁止在扩展页面显示右键
 
 ## 重构
+
+1. 超过8.0的eslint无效
+https://stackoverflow.com/questions/69873231/eslint-sourced-from-same-location-cant-load-library-in-different-projects
+
+2. 添加react-jss
