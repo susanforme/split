@@ -61,6 +61,16 @@
     "./home.html"
   ],
   "background": {
-    "page": "background.html"
-  }
+    "page": "/background.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "js/vendor.js"
+      ]
+    }
+  ]
 }

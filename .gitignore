@@ -22,3 +22,6 @@ pnpm-debug.log*
 *.sw?
 
 yarn.lock
+/.env.local
+/.eslintcache
+package-lock.json
