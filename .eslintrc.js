@@ -49,7 +49,6 @@ module.exports = {
     // 禁止函数中的同名参数
     "no-dupe-args": 2,
     "line-comment-position": ["error", { position: "above" }],
-    "multiline-comment-style": ["error", "starred-block"],
     // 注释空格，必须在注释前加一个空格
     "spaced-comment": 2,
     // eslint-disable-next-line no-dupe-keys
