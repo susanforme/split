@@ -11,13 +11,18 @@ chrome.contextMenus.create({
   visible: true,
 });
 chrome.contextMenus.onClicked.addListener((v) => {
-  const { pageUrl, menuItemId } = v;
+  const { pageUrl } = v;
   getUrl()
     .then((res) => {
+      console.log("res+");
       console.log(res);
     })
     .catch(() => {
-      setUrl();
+      console.log("err");
+      return setUrl();
+    })
+    .then(() => {
+      console.log("url设置成功");
     });
   // switch (menuItemId) {
   //   case CONTEXT_ID.SPLIT:
@@ -41,5 +46,5 @@ chrome.contextMenus.onClicked.addListener((v) => {
   //     break;
   // }
   console.log(v);
-  console.log(pageUrl, menuItemId);
+  console.log("当前页面为" + pageUrl);
 });
