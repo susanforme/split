@@ -12,15 +12,20 @@ const Home = () => {
   //  *   element.src = urls[i].url;
   //  * }
   //  */
-  const [urls, setUrls] = useState([{ src: "", date: 1 }]);
+  const [urls, setUrls] = useState([{ url: "", date: 1 }]);
   useEffect(() => {
-    getUrl().then();
+    getUrl().then((data) => {
+      if (!data) {
+        return;
+      }
+      setUrls(data);
+    });
   });
   const styles = useStyles();
   const iframes = urls.map((v) => {
     return (
       <div className={styles.iframeChild} key={v.date}>
-        <iframe src={v.src} frameBorder="0"></iframe>
+        <iframe src={v.url} frameBorder="0"></iframe>
       </div>
     );
   });
