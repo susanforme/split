@@ -2,16 +2,8 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { createUseStyles } from "react-jss";
 import { getUrl } from "./utils";
+import openImg from "./img/open.png";
 const Home = () => {
-  // /*
-  //  * const iframes = document.querySelectorAll("iframe");
-  //  * const urls = JSON.parse(localStorage.getItem("iframeUrl"));
-  //  * for (let i = 0; i < iframes.length; i++) {
-  //  *   const element = iframes[i];
-  //  *   element.id = urls[i].date;
-  //  *   element.src = urls[i].url;
-  //  * }
-  //  */
   const [urls, setUrls] = useState([{ url: "", date: 1 }]);
   useEffect(() => {
     const data = getUrl();
@@ -21,6 +13,9 @@ const Home = () => {
   const iframes = urls.map((v) => {
     return (
       <div className={styles.iframeChild} key={v.date}>
+        <div className={styles.operate}>
+          <img src={openImg} alt="" />
+        </div>
         <iframe src={v.url} frameBorder="0"></iframe>
       </div>
     );
@@ -46,10 +41,14 @@ function useStyles() {
     },
     iframeChild: {
       width: "50%",
+      position: "relative",
       "& iframe": {
         width: "100%",
         height: "100%",
       },
+    },
+    operate: {
+      position: "absolute",
     },
   })();
 }
