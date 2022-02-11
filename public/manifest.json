@@ -47,7 +47,8 @@
     "tabs", // 标签
     "notifications", // 通知
     "storage", // 存储
-    "webRequest" // web请求
+    "webRequest", // web请求
+    "webRequestBlocking"
   ],
   "short_name": "Short Name",
   // 存储
