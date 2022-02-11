@@ -17,8 +17,10 @@ chrome.contextMenus.onClicked.addListener((v) => {
     case CONTEXT_ID.SPLIT:
       {
         const url = chrome.runtime.getURL("home.html");
-        setUrl(pageUrl);
-        chrome.tabs.create({ url });
+
+        if (setUrl(pageUrl)) {
+          chrome.tabs.create({ url });
+        }
       }
       break;
     default:

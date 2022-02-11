@@ -1,6 +1,12 @@
 import { IFRAME_URL } from "./key";
 export function getUrl() {
-  return Storage.get<IframeUrl[]>(IFRAME_URL);
+  let data = Storage.get<IframeUrl[]>(IFRAME_URL);
+  // 不存在数据使用默认值
+  if (!data) {
+    initUrl();
+    data = Storage.get<IframeUrl[]>(IFRAME_URL);
+  }
+  return data;
 }
 export function initUrl() {
   // 默认url
@@ -19,11 +25,15 @@ export function initUrl() {
 //  设置url
 export function setUrl(url: string) {
   const urls = getUrl();
+  const isInvalidUrl = url.startsWith("chrome-extension:");
   let minUrlIndex = 0;
+  console.log(urls);
   if (!urls) {
-    initUrl();
-    setUrl(url);
-    return;
+    return false;
+  }
+  // 不合法url
+  if (isInvalidUrl) {
+    return false;
   }
   // 找出最久的url
   for (let i = 1; i < urls.length; i++) {
@@ -36,6 +46,7 @@ export function setUrl(url: string) {
     date: Date.now(),
   };
   Storage.set(IFRAME_URL, urls);
+  return true;
 }
 
 // 解析url最终返回带http/https地址
@@ -44,7 +55,7 @@ export function urlParse() {}
 // 封装localstorage
 export class Storage {
   static get<T>(key: string) {
-    let data: T | undefined;
+    let data: T;
     try {
       data = JSON.parse(window.localStorage.getItem(key) || "");
     } catch (error) {
