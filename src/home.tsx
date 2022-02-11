@@ -14,12 +14,8 @@ const Home = () => {
   //  */
   const [urls, setUrls] = useState([{ url: "", date: 1 }]);
   useEffect(() => {
-    getUrl().then((data) => {
-      if (!data) {
-        return;
-      }
-      setUrls(data);
-    });
+    const data = getUrl();
+    console.log(data);
   });
   const styles = useStyles();
   const iframes = urls.map((v) => {

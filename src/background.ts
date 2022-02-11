@@ -14,10 +14,11 @@ chrome.contextMenus.onClicked.addListener((v) => {
   const { pageUrl, menuItemId } = v;
   switch (menuItemId) {
     case CONTEXT_ID.SPLIT:
-      setUrl(pageUrl).then(() => {
+      {
         const url = chrome.runtime.getURL("home.html");
+        setUrl(pageUrl);
         chrome.tabs.create({ url });
-      });
+      }
       break;
     default:
       break;

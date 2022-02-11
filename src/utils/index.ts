@@ -1,11 +1,8 @@
-import { IFRAME_URL, IS_CHROME_STORAGE } from "./key";
-// http://www.kkh86.com/it/chrome-extension-doc/extensions/storage.html#property-sync
-export async function getUrl() {
-  // 传入null,获取所有数据
-  const { iframeUrl }: IframeUrlType = await chrome.storage.sync.get(IFRAME_URL);
-  return iframeUrl;
+import { IFRAME_URL } from "./key";
+export function getUrl() {
+  return Storage.get<IframeUrl[]>(IFRAME_URL);
 }
-async function initUrl() {
+export function initUrl() {
   // 默认url
   const defaultUrls = [
     {
@@ -17,17 +14,13 @@ async function initUrl() {
       date: Date.now() + 1,
     },
   ];
-  await chrome.storage.sync.set({ [IFRAME_URL]: defaultUrls });
+  Storage.set(IFRAME_URL, defaultUrls);
 }
-//  处理设置
-export async function setUrl(url: string) {
-  const urls = await getUrl();
+//  设置url
+export function setUrl(url: string) {
+  const urls = getUrl();
   let minUrlIndex = 0;
   if (!urls) {
-    await initUrl();
-  }
-  if (!urls) {
-    console.log("初始化失败");
     return;
   }
   // 找出最久的url
@@ -40,27 +33,44 @@ export async function setUrl(url: string) {
     url,
     date: Date.now(),
   };
-  return chrome.storage.sync.set({ [IFRAME_URL]: urls });
+  Storage.set(IFRAME_URL, urls);
 }
 
 // 解析url最终返回带http/https地址
 export function urlParse() {}
 
-// false则为存储到localstorage,true为chrome.storage.sync
-export async function isChromeStorage() {
-  const { isLocalstorage }: { isLocalstorage?: boolean } = await chrome.storage.sync.get(
-    IS_CHROME_STORAGE,
-  );
-  return !!isLocalstorage;
+// 封装localstorage
+export class Storage {
+  static get<T>(key: string) {
+    let data: T | undefined;
+    try {
+      data = JSON.parse(window.localStorage.getItem(key) || "");
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+    return data;
+  }
+  // true 成功设置
+  static set(key: string, value: any) {
+    let newValue = "";
+    if (typeof value !== "string") {
+      try {
+        newValue = JSON.stringify(value);
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    }
+    window.localStorage.setItem(key, newValue);
+    return true;
+  }
 }
-// 设置储存方式 option选项设置
-export async function setStorage(isChromeStorage: boolean) {
-  await chrome.storage.sync.set({ [IS_CHROME_STORAGE]: isChromeStorage });
+export interface StorageType {
+  IframeUrl?: IframeUrl[];
 }
 
-interface IframeUrlType {
-  iframeUrl?: {
-    url: string;
-    date: number;
-  }[];
+interface IframeUrl {
+  url: string;
+  date: number;
 }
