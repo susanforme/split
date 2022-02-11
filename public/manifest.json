@@ -1,9 +1,9 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "Split Screen",
   "version": "1.0.0",
   "version_name": "beta",
-  "action": {
+  "browser_action": {
     "default_icon": {
       "16": "img/16.png",
       "48": "img/48.png",
@@ -42,8 +42,7 @@
   "minimum_chrome_version": "45",
   "offline_enabled": true,
   "permissions": [
-    // "http://*/*",
-    // "https://*/*",
+    "*://*/*",
     "contextMenus", // 右键菜单
     "tabs", // 标签
     "notifications", // 通知
@@ -58,17 +57,11 @@
   "update_url": "https://path/to/updateInfo.xml",
   // 普通页面能够直接访问的插件资源列表，如果不设置是无法直接访问的
   "web_accessible_resources": [
-    {
-      "resources": [
-        "./js/inject.js",
-        "./home.html"
-      ],
-      "matches": [],
-      "extension_ids": []
-    }
+    "./js/inject.js",
+    "./home.html"
   ],
   "background": {
-    "service_worker": "./js/background.js"
+    "page": "/background.html"
   },
   "content_scripts": [
     {

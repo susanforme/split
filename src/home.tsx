@@ -14,13 +14,9 @@ const Home = () => {
   //  */
   const [urls, setUrls] = useState([{ url: "", date: 1 }]);
   useEffect(() => {
-    getUrl().then((data) => {
-      if (!data) {
-        return;
-      }
-      setUrls(data);
-    });
-  });
+    const data = getUrl();
+    setUrls(data || []);
+  }, []);
   const styles = useStyles();
   const iframes = urls.map((v) => {
     return (
@@ -50,6 +46,10 @@ function useStyles() {
     },
     iframeChild: {
       width: "50%",
+      "& iframe": {
+        width: "100%",
+        height: "100%",
+      },
     },
   })();
 }
