@@ -5,18 +5,18 @@
   "version_name": "beta",
   "browser_action": {
     "default_icon": {
-      "16": "img/16.png",
-      "48": "img/48.png",
-      "128": "img/128.png"
+      "16": "icon/16.png",
+      "48": "icon/48.png",
+      "128": "icon/128.png"
     },
     // 图标悬停时的标题，可选
     "default_title": "这是一个示例Chrome插件",
     "default_popup": "popup.html"
   },
   "icons": {
-    "16": "img/16.png",
-    "48": "img/48.png",
-    "128": "img/128.png"
+    "16": "icon/16.png",
+    "48": "icon/48.png",
+    "128": "icon/128.png"
   },
   // 多语言配置
   // "default_locale": "en",
