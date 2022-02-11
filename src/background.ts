@@ -34,15 +34,29 @@ chrome.webRequest.onHeadersReceived.addListener(
   function (info) {
     // 所有response头
     const { responseHeaders } = info;
+    console.log(responseHeaders);
+
     if (!responseHeaders) {
       return;
     }
     for (let i = responseHeaders.length - 1; i >= 0; --i) {
       const header = responseHeaders[i].name.toLowerCase();
-      if (header == "x-frame-options" || header == "frame-options") {
+      if (
+        header === "x-frame-options" ||
+        header === "frame-options" ||
+        // 删除csp
+        header === "content-security-policy"
+      ) {
         // Remove header
         responseHeaders.splice(i, 1);
       }
+      //  自动设置CORS 跨域,建议设置为可配置
+      // if (header === "access-control-allow-origin") {
+      //   responseHeaders.splice(i, 1, {
+      //     name: responseHeaders[i].name,
+      //     value: "*",
+      //   });
+      // }
     }
     return { responseHeaders };
   },
