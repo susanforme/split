@@ -21,6 +21,8 @@ export function setUrl(url: string) {
   const urls = getUrl();
   let minUrlIndex = 0;
   if (!urls) {
+    initUrl();
+    setUrl(url);
     return;
   }
   // 找出最久的url
