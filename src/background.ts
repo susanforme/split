@@ -1,4 +1,4 @@
-import { setUrl } from "./utils";
+import { setUrlFromStorage } from "./utils";
 import { CONTEXT_ID } from "./utils/key";
 
 // [
@@ -18,7 +18,7 @@ chrome.contextMenus.onClicked.addListener((v) => {
       {
         const url = chrome.runtime.getURL("home.html");
 
-        if (setUrl(pageUrl)) {
+        if (setUrlFromStorage(pageUrl)) {
           chrome.tabs.create({ url });
         }
       }
@@ -34,7 +34,7 @@ chrome.webRequest.onHeadersReceived.addListener(
   function (info) {
     // 所有response头
     const { responseHeaders } = info;
-    console.log(responseHeaders);
+    console.log(info);
 
     if (!responseHeaders) {
       return;
@@ -51,19 +51,54 @@ chrome.webRequest.onHeadersReceived.addListener(
         responseHeaders.splice(i, 1);
       }
       //  自动设置CORS 跨域,建议设置为可配置
-      // if (header === "access-control-allow-origin") {
-      //   responseHeaders.splice(i, 1, {
-      //     name: responseHeaders[i].name,
-      //     value: "*",
-      //   });
-      // }
+      if (header === "access-control-allow-origin") {
+        responseHeaders.splice(i, 1, {
+          name: responseHeaders[i].name,
+          value: "*",
+        });
+      }
     }
     return { responseHeaders };
   },
   {
     // Pattern to match all http(s) pages
     urls: ["*://*/*"],
-    types: ["sub_frame"],
+    // 执行范围 "xmlhttprequest"
+    types: ["main_frame", "sub_frame"],
   },
   ["blocking", "responseHeaders"],
+);
+
+chrome.webRequest.onBeforeSendHeaders.addListener(
+  function (details) {
+    const { requestHeaders } = details;
+    if (!requestHeaders) {
+      return;
+    }
+    console.log("onBeforeSendHeader", details);
+    // for (let i = 0; i <requestHeaders.length; ++i)
+    // {
+    //  if (requestHeaders[i].name.toLowerCase() === 'user-agent')
+    //  {
+    //   message.useragent = requestHeaders[i].value;
+    //  }
+    //  else if (requestHeaders[i].name.toLowerCase() === 'referer')
+    //  {
+    //   message.referrer = requestHeaders[i].value;
+    //  }
+    //  else if (requestHeaders[i].name.toLowerCase() === 'cookie')
+    //  {
+    //   message.cookies = requestHeaders[i].value;
+    //   console.log(requestHeaders[i].value);
+    //  }
+    // }
+    return {
+      requestHeaders,
+    };
+  },
+  {
+    urls: ["<all_urls>"],
+    types: ["main_frame", "sub_frame", "xmlhttprequest"],
+  },
+  ["blocking", "requestHeaders"],
 );

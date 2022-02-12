@@ -1,5 +1,5 @@
 import { IFRAME_URL } from "./key";
-export function getUrl() {
+export function getUrlFromStorage() {
   let data = Storage.get<IframeUrl[]>(IFRAME_URL);
   // 不存在数据使用默认值
   if (!data) {
@@ -23,11 +23,10 @@ export function initUrl() {
   Storage.set(IFRAME_URL, defaultUrls);
 }
 //  设置url
-export function setUrl(url: string) {
-  const urls = getUrl();
+export function setUrlFromStorage(url: string, index?: number) {
+  const urls = getUrlFromStorage();
   const isInvalidUrl = url.startsWith("chrome-extension:");
   let minUrlIndex = 0;
-  console.log(urls);
   if (!urls) {
     return false;
   }
@@ -35,11 +34,15 @@ export function setUrl(url: string) {
   if (isInvalidUrl) {
     return false;
   }
-  // 找出最久的url
-  for (let i = 1; i < urls.length; i++) {
-    if (urls[i].date < urls[i - 1].date) {
-      minUrlIndex = i;
+  if (Object.is(index, undefined)) {
+    // 找出最久的url
+    for (let i = 1; i < urls.length; i++) {
+      if (urls[i].date < urls[i - 1].date) {
+        minUrlIndex = i;
+      }
     }
+  } else {
+    minUrlIndex = index as number;
   }
   urls[minUrlIndex] = {
     url,
@@ -83,7 +86,8 @@ export interface StorageType {
   IframeUrl?: IframeUrl[];
 }
 
-interface IframeUrl {
+export interface IframeUrl {
   url: string;
   date: number;
+  [key: string]: any;
 }
